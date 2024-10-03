@@ -4,7 +4,8 @@ import { client } from "../utils/KindeConfigue";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
 export default function Header() {
-  const [user, setUser] = useState();
+  const [user, setUser] = useState(null);
+  console.log(user);
 
   const getUserData = async () => {
     const user = await client.getUserDetails();

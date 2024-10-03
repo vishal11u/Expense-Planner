@@ -13,7 +13,7 @@ const index = () => {
   const router = useRouter();
   const [categoryList, setCategoryList] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [refreshing, setRefreshing] = useState(false); // State to handle refreshing
+  const [refreshing, setRefreshing] = useState(false); 
 
   const checkUserAuth = async () => {
     const result = await Services.getData("login");

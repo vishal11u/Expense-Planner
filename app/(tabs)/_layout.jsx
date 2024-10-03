@@ -31,6 +31,15 @@ export default function Tablayout() {
         }}
       />
       <Tabs.Screen
+        name="notes"
+        options={{
+          title: "Notes",
+          tabBarIcon: ({ color }) => (
+            <MaterialIcons name="speaker-notes" size={24} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
         name="profile"
         options={{
           title: "Profile",

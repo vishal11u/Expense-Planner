@@ -15,8 +15,8 @@ import { supabase } from "../utils/SupabaseConfigue";
 export default function CourseItemList({ categoryData, setUpdateRecord }) {
   const [expand, setExpand] = useState();
 
-  const onDeleteItem = (id) => {
-    const { error } = supabase.from("CategoryList").delete().eq("id", id);
+  const onDeleteItem = async (id) => {
+    const { error } = await supabase.from("CategoryList").delete().eq("id", id);
 
     ToastAndroid.show("Item Deleted", ToastAndroid.SHORT);
     setUpdateRecord(true);

@@ -5,8 +5,8 @@ import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 
 export default function CircularChart({ categoryList }) {
   const widthAndHeight = 150;
-  const [value, setValue] = useState([1]);
-  const [color, setColor] = useState(["gray"]);
+  const [value, setValue] = useState([]);
+  const [color, setColor] = useState([]);
   const [total, setTotal] = useState(0);
 
   const multipleColors = [
@@ -22,8 +22,8 @@ export default function CircularChart({ categoryList }) {
   const updateCircularChart = () => {
     let totalEstimate = 0;
     let otherCost = 0;
-    let newColors = [];
-    let newValues = [];
+    let tempValues = [];
+    let tempColors = [];
 
     categoryList?.forEach((item, index) => {
       if (index < 4) {
@@ -32,8 +32,8 @@ export default function CircularChart({ categoryList }) {
           totalItemCost += item_.cost;
           totalEstimate += item_.cost;
         });
-        newColors.push(multipleColors[index]);
-        newValues.push(totalItemCost);
+        tempColors.push(multipleColors[index]);
+        tempValues.push(totalItemCost);
       } else {
         item?.CategoryList?.forEach((item_) => {
           otherCost += item_.cost;
@@ -42,16 +42,23 @@ export default function CircularChart({ categoryList }) {
       }
     });
 
-    newColors.push(multipleColors[4]);
-    newValues.push(otherCost);
+    if (otherCost > 0) {
+      tempColors.push(multipleColors[4]);
+      tempValues.push(otherCost);
+    }
 
-    setColor(newColors);
-    setValue(newValues);
+    if (totalEstimate > 0) {
+      setColor(tempColors);
+      setValue(tempValues);
+    }
+
     setTotal(totalEstimate);
   };
 
   useEffect(() => {
-    updateCircularChart();
+    if (categoryList?.length) {
+      updateCircularChart();
+    }
   }, [categoryList]);
 
   return (
@@ -62,8 +69,8 @@ export default function CircularChart({ categoryList }) {
       <View style={style.chartDiv}>
         <PieChart
           widthAndHeight={widthAndHeight}
-          series={value}
-          sliceColor={color}
+          series={value.length > 0 ? value : [1]} 
+          sliceColor={color.length > 0 ? color : ["gray"]}
           coverRadius={0.65}
           coverFill={"#FFF"}
         />
@@ -114,7 +121,7 @@ const style = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
-    gap: 40,
+    gap: 25,
   },
   content: {
     display: "flex",

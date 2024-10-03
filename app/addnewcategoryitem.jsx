@@ -17,7 +17,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import * as ImagePicker from "expo-image-picker";
 import { supabase } from "../utils/SupabaseConfigue";
 import { decode } from "base64-arraybuffer";
-import { useRouter } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 
 export default function AddNewCategoryItem() {
   const placeHolder =
@@ -32,7 +32,7 @@ export default function AddNewCategoryItem() {
 
   const router = useRouter();
 
-  const isButtonDisabled = !category || !cost || !note || !url;
+  const isButtonDisabled = !category || !cost;
 
   const onImagePicker = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -52,7 +52,7 @@ export default function AddNewCategoryItem() {
   const onClickAdd = async () => {
     const fileName = Date.now();
     const { data, error } = await supabase.storage
-      .from("images")
+      .from("image")
       .upload(fileName + ".png", decode(image), {
         contentType: "image/png",
       });

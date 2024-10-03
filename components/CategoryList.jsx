@@ -15,11 +15,11 @@ export default function CategoryList({ categoryList }) {
   };
 
   const calculateTotalCost = (categoryItems) => {
+    if (!categoryItems || categoryItems.length === 0) return 0;
     let totalCost = 0;
     categoryItems.forEach((item) => {
       totalCost = totalCost + item?.cost;
     });
-
     return totalCost;
   };
 
@@ -27,7 +27,7 @@ export default function CategoryList({ categoryList }) {
     <View>
       <Text style={styles.headerText}>Latest Budget</Text>
       <View>
-        {categoryList &&
+        {categoryList && categoryList.length > 0 ? (
           categoryList?.map((category, index) => (
             <TouchableOpacity
               onPress={() => onCategoryList(category)}
@@ -47,7 +47,9 @@ export default function CategoryList({ categoryList }) {
                 <View>
                   <Text style={styles.name}>{category?.name}</Text>
                   <Text style={styles.category}>
-                    {category?.CategoryList?.length} items
+                    {category?.CategoryList?.length > 0
+                      ? `${category.CategoryList.length} items`
+                      : "No items available"}
                   </Text>
                 </View>
                 <Text style={styles.budget}>
@@ -55,7 +57,10 @@ export default function CategoryList({ categoryList }) {
                 </Text>
               </View>
             </TouchableOpacity>
-          ))}
+          ))
+        ) : (
+          <Text>No categories found</Text>
+        )}
       </View>
     </View>
   );
@@ -99,6 +104,10 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#000",
     marginTop: -10,
+  },
+  category: {
+    fontSize: 15,
+    color: "#666",
   },
   budget: {
     fontSize: 17,

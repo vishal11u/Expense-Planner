@@ -9,7 +9,7 @@ export default function LoginScreen() {
   const route = useRouter();
 
   const handleSignIn = async () => {
-    const token = await client.login();
+    const token = await client.logout();
     if (token) {
       await services.storeData("login", "true");
       route.replace("/");
